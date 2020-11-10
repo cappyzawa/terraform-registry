@@ -8,14 +8,39 @@ import (
 
 func TestParse(t *testing.T) {
 	t.Parallel()
-	actual, err := config.Parse("../testdata/config.yaml")
-	if err != nil {
-		t.Errorf("err should not occur: %v", err)
+
+	cases := map[string]struct {
+		input     string
+		existErr  bool
+		expectLen int
+	}{
+		"config file exists": {
+			input:     "../testdata/config.yaml",
+			existErr:  false,
+			expectLen: 1,
+		},
+		"config file does not exist": {
+			input:     "nonexist.yaml",
+			existErr:  true,
+			expectLen: 0,
+		},
 	}
-	if len(actual.Providers) != 1 {
-		t.Errorf("length of providers should be 1, but it is %v", len(actual.Providers))
-	}
-	if actual.Providers[0].Namespace != "cappyzawa" {
-		t.Errorf("provider namespace should be cappyzawa, but it is %v", actual.Providers[0].Namespace)
+
+	for name, test := range cases {
+		test := test
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+
+			actual, err := config.Parse(test.input)
+			if err != nil && !test.existErr {
+				t.Errorf("error should not occur: %v", err)
+			}
+			if err == nil && test.existErr {
+				t.Error("error should occur")
+			}
+			if actual != nil && len(actual.Providers) != test.expectLen {
+				t.Errorf("length of provider should be %v, but it is %v", test.expectLen, len(actual.Providers))
+			}
+		})
 	}
 }
