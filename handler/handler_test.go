@@ -29,12 +29,12 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 		})
 	})
 	wh := handler.WellKnownHandler{}
-	r.Get("/.wellknown/terraform.json", wh.ServeHTTP)
+	r.Get("/.well-known/terraform.json", wh.ServeHTTP)
 
 	ts := httptest.NewServer(r)
 	defer ts.Close()
 
-	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/.wellknown/terraform.json", ts.URL), nil)
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/.well-known/terraform.json", ts.URL), nil)
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		t.Fatalf("err: %v", err)
