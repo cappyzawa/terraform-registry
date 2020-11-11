@@ -5,18 +5,21 @@ import (
 	"net/http"
 )
 
-// WellKnwonResponse describes response for wellknwon request
-type WellKnwonResponse struct {
+// WellKnownResponse describes response for wellknwon request
+type WellKnownResponse struct {
 	Providers string `json:"providers.v1"`
 	Modules   string `json:"modules.v1"`
 }
 
-// WellKnwonHandler handles requests for wellknwon
-type WellKnwonHandler struct {
+// WellKnownHandler handles requests for wellknwon
+type WellKnownHandler struct {
 }
 
-func (h *WellKnwonHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var res WellKnwonResponse
+func (h *WellKnownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	res := WellKnownResponse{
+		Providers: "/v1/providers/",
+		Modules:   "/v1/modules/",
+	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&res)
 }

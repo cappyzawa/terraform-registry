@@ -57,7 +57,7 @@ func (c *cli) Run() {
 }
 
 func registerRoute(r *chi.Mux, c *config.Config) {
-	wh := handler.WellKnwonHandler{}
+	wh := handler.WellKnownHandler{}
 	pvh := provider.VersionsHandler{
 		Providers: c.Providers,
 	}
