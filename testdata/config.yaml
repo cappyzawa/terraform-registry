@@ -6,7 +6,17 @@ providers:
     platforms:
     - os: darwin
       arch: amd64
+    - os: linux
+      arch: amd64
     source:
       download_url: https://github.com/cappyzawa/terraform-provider-concourse/releases/download/v0.1.0/terraform-provider-concourse_0.1.0_darwin_amd64.zip
+  - name: "0.0.5"
+    platforms:
+    - os: darwin
+      arch: amd64
+    - os: linux
+      arch: amd64
+    source:
+      download_url: https://github.com/cappyzawa/terraform-provider-concourse/releases/download/v0.1.0/terraform-provider-concourse_0.0.5_darwin_amd64.zip
 
 modules: []
