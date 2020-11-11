@@ -46,15 +46,18 @@ providers:
       shasum: ddddddddddddddddddddddd
 ```
 
-* `namespace`: The namespace of terraform provider
-* `type`: The type of terraform provider
-* `download_url_fmt`: Format of download url for terraform provider asset
-* `shasums_url_fmt`: Format of shasums url for terraform provider assets
-    ref: https://www.terraform.io/docs/registry/providers/publishing.html#manually-preparing-a-release
-* `shasums_signature_url_fmt`: Format of shasums signature
-    ref: https://www.terraform.io/docs/registry/providers/publishing.html#manually-preparing-a-release
-* `signing_keys`: This keys vaidates shasums signature
-    ref: https://www.terraform.io/docs/registry/providers/publishing.html#manually-preparing-a-release
+### Provider
+
+For details on how to publish the provider, please refer to [Terraform Registry \- Publishing Providers \- Terraform by HashiCorp](https://www.terraform.io/docs/registry/providers/publishing.html).
+
+* `namespace`: The namespace of terraform provider.
+* `type`: The type of terraform provider.
+* `download_url_fmt`: Format of download url for terraform provider asset.
+* `shasums_url_fmt`: Format of shasums url for terraform provider assets.
+* `shasums_signature_url_fmt`: Format of shasums signature.
+* `signing_keys`: This keys vaidates shasums signature.
+
+After the implementation of the configuration file is complete, start the terraform registry with the following command.
 
 ```bash
 CONFIG_FILE=config.yaml terraform-registry
