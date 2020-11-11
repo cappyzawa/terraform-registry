@@ -61,11 +61,20 @@ func registerRoute(r *chi.Mux, c *config.Config) {
 	pvh := provider.VersionsHandler{
 		Providers: c.Providers,
 	}
-	r.Get("/.wellknown/terraform.json", wh.ServeHTTP)
+	pdh := provider.DownloadHandler{
+		Providers: c.Providers,
+	}
+	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			next.ServeHTTP(w, r)
+		})
+	})
+	r.Get("/.well-known/terraform.json", wh.ServeHTTP)
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/providers", func(r chi.Router) {
 			r.Get("/{namespace}/{type}/versions", pvh.ServeHTTP)
-			r.Get("/{namespace}/{type}/{version}/download/{os}/{arch}", wh.ServeHTTP)
+			r.Get("/{namespace}/{type}/{version}/download/{os}/{arch}", pdh.ServeHTTP)
 		})
 		r.Route("/modules", func(r chi.Router) {
 		})

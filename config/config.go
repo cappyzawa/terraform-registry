@@ -13,22 +13,26 @@ type Config struct {
 
 // Provider desribes config for provider
 type Provider struct {
-	Namespace string    `yaml:"namespace"`
-	Type      string    `yaml:"type"`
-	Versions  []Version `yaml:"versions"`
+	Namespace              string    `yaml:"namespace"`
+	Type                   string    `yaml:"type"`
+	Versions               []Version `yaml:"versions"`
+	DownloadURLFmt         string    `yaml:"download_url_fmt"`
+	ShasumsURLFmt          string    `yaml:"shasums_url_fmt"`
+	ShasumsSignatureURLFmt string    `yaml:"shasums_signature_url_fmt"`
 }
 
 // Version desribes provider version
 type Version struct {
-	Name      string     `yaml:"name"`
-	Platforms []Platform `yaml:"platforms"`
-	Source    Source     `yaml:"source"`
+	Name   string  `yaml:"name"`
+	Assets []Asset `yaml:"assets"`
+	Source Source  `yaml:"source"`
 }
 
-// Platform describes available platform for provider
-type Platform struct {
-	OS   string `yaml:"os" json:"os"`
-	Arch string `yaml:"arch" json:"arch"`
+// Asset describes available platform for provider
+type Asset struct {
+	OS     string `yaml:"os" json:"os"`
+	Arch   string `yaml:"arch" json:"arch"`
+	Shasum string `yaml:"shasum" json:"shasum"`
 }
 
 // Source desribes source for provider

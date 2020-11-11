@@ -23,6 +23,12 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 
 	r := chi.NewRouter()
 	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			next.ServeHTTP(w, r)
+		})
+	})
+	r.Use(func(next http.Handler) http.Handler {
 		return httpdoc.Record(next, document, &httpdoc.RecordOption{
 			Description:    "",
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},

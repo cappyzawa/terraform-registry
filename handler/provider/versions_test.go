@@ -68,6 +68,12 @@ func testServer(doc *httpdoc.Document, description string) *httptest.Server {
 
 	r := chi.NewRouter()
 	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			next.ServeHTTP(w, r)
+		})
+	})
+	r.Use(func(next http.Handler) http.Handler {
 		return httpdoc.Record(next, doc, &httpdoc.RecordOption{
 			Description:    description,
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},

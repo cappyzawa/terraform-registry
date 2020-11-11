@@ -63,6 +63,12 @@ non existing provider: foo/bar
 
 ### Response
 
+Headers
+
+| Name  | Value  | Description |
+| ----- | :----- | :--------- |
+| Content-Type | application/json |  |
+
 
 
 

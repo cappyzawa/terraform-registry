@@ -21,6 +21,5 @@ func (h *WellKnownHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		Modules:   "/v1/modules/",
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(&res)
 }

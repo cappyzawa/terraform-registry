@@ -16,9 +16,15 @@ type VersionResoponse struct {
 
 // Version desribes provider version
 type Version struct {
-	Name      string            `json:"version"`
-	Protocols []string          `json:"protocols"`
-	Platforms []config.Platform `json:"platforms"`
+	Name      string     `json:"version"`
+	Protocols []string   `json:"protocols"`
+	Platforms []Platform `json:"platforms"`
+}
+
+// Platform describes provider platform
+type Platform struct {
+	OS   string `json:"os"`
+	Arch string `json:"arch"`
 }
 
 // VersionsHandler handles request for provider versions
@@ -36,10 +42,18 @@ func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if provider.Namespace == namespace && _type == provider.Type {
 			exist = true
 			for _, v := range provider.Versions {
+				var pfs []Platform
+				for _, asset := range v.Assets {
+					pf := Platform{
+						OS:   asset.OS,
+						Arch: asset.Arch,
+					}
+					pfs = append(pfs, pf)
+				}
 				version := Version{
 					Name:      v.Name,
 					Protocols: []string{"5.3"},
-					Platforms: v.Platforms,
+					Platforms: pfs,
 				}
 				versions = append(versions, version)
 			}
@@ -52,6 +66,5 @@ func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	res.Versions = versions
 	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(&res)
 }

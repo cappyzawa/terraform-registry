@@ -1,22 +1,22 @@
 providers:
 - namespace: cappyzawa
   type: concourse
+  download_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_{os}_{arch}.zip
+  shasums_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_SHA256SUMS
+  shasums_signature_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_SHA256SUMS.sig
   versions:
   - name: "0.1.0"
-    platforms:
+    assets:
     - os: darwin
       arch: amd64
+      shasum: 82abade6ec0c90b88f205c38e9e241ec229df6c7150ee59c242f1924070bad82
     - os: linux
       arch: amd64
-    source:
-      download_url: https://github.com/cappyzawa/terraform-provider-concourse/releases/download/v0.1.0/terraform-provider-concourse_0.1.0_darwin_amd64.zip
+      shasum: 82abade6ec0c90b88f205c38e9e241ec229df6c7150ee59c242f1924070bad82
   - name: "0.0.5"
-    platforms:
+    assets:
     - os: darwin
       arch: amd64
     - os: linux
       arch: amd64
-    source:
-      download_url: https://github.com/cappyzawa/terraform-provider-concourse/releases/download/v0.1.0/terraform-provider-concourse_0.0.5_darwin_amd64.zip
-
 modules: []
