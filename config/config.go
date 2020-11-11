@@ -13,12 +13,27 @@ type Config struct {
 
 // Provider desribes config for provider
 type Provider struct {
-	Namespace              string    `yaml:"namespace"`
-	Type                   string    `yaml:"type"`
-	Versions               []Version `yaml:"versions"`
-	DownloadURLFmt         string    `yaml:"download_url_fmt"`
-	ShasumsURLFmt          string    `yaml:"shasums_url_fmt"`
-	ShasumsSignatureURLFmt string    `yaml:"shasums_signature_url_fmt"`
+	Namespace              string      `yaml:"namespace"`
+	Type                   string      `yaml:"type"`
+	Versions               []Version   `yaml:"versions"`
+	DownloadURLFmt         string      `yaml:"download_url_fmt"`
+	ShasumsURLFmt          string      `yaml:"shasums_url_fmt"`
+	ShasumsSignatureURLFmt string      `yaml:"shasums_signature_url_fmt"`
+	SigningKeys            SigningKeys `yaml:"signing_keys"`
+}
+
+// SigningKeys desribes signingkeys
+type SigningKeys struct {
+	GpgPublicKeys []GpgPublicKey `yaml:"gpg_public_keys" json:"gpg_public_keys"`
+}
+
+// GpgPublicKey desribes gpg public key
+type GpgPublicKey struct {
+	KeyID          string `yaml:"key_id" json:"key_id"`
+	ASCIIArmor     string `yaml:"ascii_armor" json:"ascii_armor"`
+	TrustSignature string `yaml:"trust_signature" json:"trust_signature"`
+	Source         string `yaml:"source" json:"source"`
+	SourceURL      string `yaml:"source_url" json:"source_url"`
 }
 
 // Version desribes provider version

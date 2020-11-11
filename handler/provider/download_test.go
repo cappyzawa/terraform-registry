@@ -12,25 +12,52 @@ import (
 	"go.mercari.io/go-httpdoc"
 )
 
-func TestVersionHandlerServeHTTP(t *testing.T) {
+func TestDownloadHandlerServeHTTP(t *testing.T) {
 	t.Parallel()
 
 	cases := []struct {
 		name         string
 		namespace    string
 		_type        string
+		version      string
+		os           string
+		arch         string
 		expectStatus int
 	}{
 		{
-			name:         "existing provider: cappyzawa/concourse",
+			name:         "existing provider: cappyzawa/concourse:0.1.0(darwin/amd64)",
 			namespace:    "cappyzawa",
 			_type:        "concourse",
+			version:      "0.1.0",
+			os:           "darwin",
+			arch:         "amd64",
 			expectStatus: http.StatusOK,
 		},
 		{
-			name:         "non existing provider: foo/bar",
+			name:         "non existing provider: foo/bar:0.1.0(darwin/amd64)",
 			namespace:    "foo",
 			_type:        "bar",
+			version:      "0.1.0",
+			os:           "darwin",
+			arch:         "amd64",
+			expectStatus: http.StatusNotFound,
+		},
+		{
+			name:         "non existing provider version: cappyzawa/concourse:11.11.0(darwin/amd64)",
+			namespace:    "cappyzawa",
+			_type:        "concourse",
+			version:      "11.11.0",
+			os:           "darwin",
+			arch:         "amd64",
+			expectStatus: http.StatusNotFound,
+		},
+		{
+			name:         "non existing provider os: cappyzawa/concourse:0.1.0(windows/amd64)",
+			namespace:    "cappyzawa",
+			_type:        "concourse",
+			version:      "0.1.0",
+			os:           "windows",
+			arch:         "amd64",
 			expectStatus: http.StatusNotFound,
 		},
 	}
@@ -39,15 +66,15 @@ func TestVersionHandlerServeHTTP(t *testing.T) {
 		Name: "Provider versions",
 	}
 	defer func() {
-		if err := document.Generate("../../docs/provider/versions.md"); err != nil {
+		if err := document.Generate("../../docs/provider/download.md"); err != nil {
 			t.Fatalf("err: %v", err)
 		}
 	}()
 
 	for _, test := range cases {
 		t.Run(test.name, func(t *testing.T) {
-			ts := testVersionsServer(document, test.name)
-			req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/v1/providers/%s/%s/versions", ts.URL, test.namespace, test._type), nil)
+			ts := testDownloadServer(document, test.name)
+			req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("%s/v1/providers/%s/%s/%s/download/%s/%s", ts.URL, test.namespace, test._type, test.version, test.os, test.arch), nil)
 			res, err := http.DefaultClient.Do(req)
 			if err != nil {
 				t.Fatalf("err: %v", err)
@@ -60,9 +87,9 @@ func TestVersionHandlerServeHTTP(t *testing.T) {
 	}
 }
 
-func testVersionsServer(doc *httpdoc.Document, description string) *httptest.Server {
+func testDownloadServer(doc *httpdoc.Document, description string) *httptest.Server {
 	cfg, _ := config.Parse("../../testdata/config.yaml")
-	pvh := &provider.VersionsHandler{
+	pdh := &provider.DownloadHandler{
 		Providers: cfg.Providers,
 	}
 
@@ -79,7 +106,7 @@ func testVersionsServer(doc *httpdoc.Document, description string) *httptest.Ser
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	r.Get("/v1/providers/{namespace}/{type}/versions", pvh.ServeHTTP)
+	r.Get("/v1/providers/{namespace}/{type}/{version}/download/{os}/{arch}", pdh.ServeHTTP)
 
 	return httptest.NewServer(r)
 }

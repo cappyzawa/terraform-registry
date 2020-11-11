@@ -4,6 +4,14 @@ providers:
   download_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_{os}_{arch}.zip
   shasums_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_SHA256SUMS
   shasums_signature_url_fmt: https://github.com/{namespace}/terraform-provider-{type}/releases/download/v{version}/terraform-provider-{type}_{version}_SHA256SUMS.sig
+  signing_keys:
+    gpg_public_keys:
+    - key_id: XXXXXXXXXXXXXXXXXXXXXXXXX
+      ascii_armor: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+        YYYYYY
+        -----END PGP PUBLIC KEY BLOCK-----
   versions:
   - name: "0.1.0"
     assets:
