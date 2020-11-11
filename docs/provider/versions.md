@@ -24,6 +24,12 @@ existing provider: cappyzawa/concourse
 
 ### Response
 
+Headers
+
+| Name  | Value  | Description |
+| ----- | :----- | :--------- |
+| Content-Type | application/json |  |
+
 
 
 
