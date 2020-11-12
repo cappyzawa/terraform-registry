@@ -54,9 +54,9 @@ For details on how to publish the provider, please refer to [Terraform Registry 
 
 * `namespace`: The namespace of terraform provider.
 * `type`: The type of terraform provider.
-* `download_url_fmt`: Format of download url for terraform provider asset. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
-* `shasums_url_fmt`: Format of shasums url for terraform provider assets. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
-* `shasums_signature_url_fmt`: Format of shasums signature. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
+* `download_url_fmt`: Format of download url for terraform provider asset (`https` only). Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
+* `shasums_url_fmt`: Format of shasums url for terraform provider assets (`https` only). Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
+* `shasums_signature_url_fmt`: Format of shasums signature (`https` only). Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
 * `signing_keys`: This keys vaidates shasums signature.
 
 #### Module
