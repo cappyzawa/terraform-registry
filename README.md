@@ -66,6 +66,8 @@ TBD.
 
 After the implementation of the configuration file is complete, start the terraform registry with the following command.
 
+**`terraform` allows only `https` as a registry schema.**
+
 #### Using binary
 
 ```bash
