@@ -10,7 +10,9 @@ WIP: The implementation of [Provider Registry Protocol \- Terraform by HashiCorp
 
 ## How to use
 
-This registry runs based on setting file like as bellow.
+### Configuration file
+
+This registry runs based on configuration file like as bellow.
 
 ```yaml
 providers:
@@ -46,19 +48,32 @@ providers:
       shasum: ddddddddddddddddddddddd
 ```
 
-### Provider
+#### Provider
 
 For details on how to publish the provider, please refer to [Terraform Registry \- Publishing Providers \- Terraform by HashiCorp](https://www.terraform.io/docs/registry/providers/publishing.html).
 
 * `namespace`: The namespace of terraform provider.
 * `type`: The type of terraform provider.
-* `download_url_fmt`: Format of download url for terraform provider asset.
-* `shasums_url_fmt`: Format of shasums url for terraform provider assets.
-* `shasums_signature_url_fmt`: Format of shasums signature.
+* `download_url_fmt`: Format of download url for terraform provider asset. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
+* `shasums_url_fmt`: Format of shasums url for terraform provider assets. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
+* `shasums_signature_url_fmt`: Format of shasums signature. Available variables are `{namespace}`, `{type}`, `{version}`, `{os}`, `{arch}`.
 * `signing_keys`: This keys vaidates shasums signature.
+
+#### Module
+TBD.
+
+### Run
 
 After the implementation of the configuration file is complete, start the terraform registry with the following command.
 
+#### Using binary
+
 ```bash
 CONFIG_FILE=config.yaml terraform-registry
+```
+
+#### Using docker (or Kubernetes)
+
+```bash
+docker run -itd --name terraform-registry -p 8080:8080 -v /tmp/config.yaml:/tmp/config.yaml -e CONFIG_FILE=/tmp/config.yaml ghcr.io/cappyzawa/terraform-registry
 ```
