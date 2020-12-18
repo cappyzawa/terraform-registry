@@ -9,6 +9,7 @@ import (
 // Config desribes configuration for registry
 type Config struct {
 	Providers []Provider `yaml:"providers"`
+	Modules   []Module   `yaml:"modules"`
 }
 
 // Provider desribes config for provider
@@ -54,6 +55,9 @@ type Asset struct {
 type Source struct {
 	DownloadURL string `yaml:"download_url"`
 }
+
+// Module decribes config for module
+type Module struct{}
 
 // Parse parse yaml file to go struct
 func Parse(path string) (*Config, error) {

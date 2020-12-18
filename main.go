@@ -11,6 +11,7 @@ import (
 
 	"github.com/cappyzawa/terraform-registry/config"
 	"github.com/cappyzawa/terraform-registry/handler"
+	"github.com/cappyzawa/terraform-registry/handler/module"
 	"github.com/cappyzawa/terraform-registry/handler/provider"
 	"github.com/go-chi/chi"
 )
@@ -74,6 +75,9 @@ func registerRoute(r *chi.Mux, c *config.Config) {
 	pdh := provider.DownloadHandler{
 		Providers: c.Providers,
 	}
+	mvh := module.VersionsHandler{
+		Modules: c.Modules,
+	}
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
@@ -87,6 +91,7 @@ func registerRoute(r *chi.Mux, c *config.Config) {
 			r.Get("/{namespace}/{type}/{version}/download/{os}/{arch}", pdh.ServeHTTP)
 		})
 		r.Route("/modules", func(r chi.Router) {
+			r.Get("/{namespace}/{name}/{provider}/versions", mvh.ServeHTTP)
 		})
 	})
 }
