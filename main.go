@@ -20,7 +20,17 @@ type cli struct {
 	configFile string
 }
 
-func (c *cli) Run() {
+var (
+	version = "dev"
+)
+
+func (c *cli) Run(args []string) {
+
+	if len(args) != 0 && args[0] == "version" {
+		print(version)
+		return
+	}
+
 	if c.port == "" {
 		c.port = "8080"
 	}
@@ -86,5 +96,5 @@ func main() {
 		port:       os.Getenv("PORT"),
 		configFile: os.Getenv("CONFIG_FILE"),
 	}
-	c.Run()
+	c.Run(os.Args[1:])
 }
