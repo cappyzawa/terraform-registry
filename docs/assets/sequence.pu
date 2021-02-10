@@ -1,0 +1,20 @@
+@startuml
+participant TerraformCLI as tf
+participant TerraformRegistry as tr
+participant ArtifactStore as store
+note right store
+  Artifact Store contains as follows
+  * Terraform Provider(zip)
+  * SHA-256(Shasums) of the provider
+  * Shasums(Shasums.sig) of the provider
+end note
+
+tf o-> tr: request for installing provider
+activate tr
+tf <- tr: response {download url, shasums url, shasums.sig url, public key for sig}
+deactivate tr
+tf -> store: install provider based on response
+activate store
+tf <- store: a provider
+deactivate store
+@enduml
