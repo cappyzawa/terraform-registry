@@ -72,6 +72,9 @@ After the implementation of the configuration file is complete, start the terraf
 
 ```bash
 CONFIG_FILE=config.yaml terraform-registry
+
+## If you want to register PID
+PID_FILE=/var/run/regsitry.pid CONFIG_FILE=config.yaml terraform-registry
 ```
 
 #### Using docker (or Kubernetes)
