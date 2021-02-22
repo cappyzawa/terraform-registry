@@ -7,8 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cappyzawa/terraform-registry/config"
-
+	"github.com/cappyzawa/terraform-registry/internal/config"
 	"github.com/go-chi/chi"
 )
 

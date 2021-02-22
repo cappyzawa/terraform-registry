@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/handler"
+	"github.com/cappyzawa/terraform-registry/internal/http/handler"
 	"github.com/go-chi/chi"
 	"go.mercari.io/go-httpdoc"
 )

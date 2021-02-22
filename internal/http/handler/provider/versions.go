@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cappyzawa/terraform-registry/config"
+	"github.com/cappyzawa/terraform-registry/internal/config"
 	"github.com/go-chi/chi"
 )
 

@@ -3,7 +3,7 @@ package module
 import (
 	"net/http"
 
-	"github.com/cappyzawa/terraform-registry/config"
+	"github.com/cappyzawa/terraform-registry/internal/config"
 )
 
 // VersionsResponse describes response for versions of target module
@@ -44,5 +44,5 @@ type VersionsHandler struct {
 
 func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-  w.Write([]byte("not implemention"))
+	w.Write([]byte("not implemention"))
 }

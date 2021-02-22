@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/config"
+	"github.com/cappyzawa/terraform-registry/internal/config"
 )
 
 func TestParse(t *testing.T) {
@@ -15,7 +15,7 @@ func TestParse(t *testing.T) {
 		expectLen int
 	}{
 		"config file exists": {
-			input:     "../testdata/config.yaml",
+			input:     "../../testdata/config.yaml",
 			existErr:  false,
 			expectLen: 1,
 		},

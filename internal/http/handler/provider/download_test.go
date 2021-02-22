@@ -6,8 +6,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/config"
-	"github.com/cappyzawa/terraform-registry/handler/provider"
+	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/internal/http/handler/provider"
 	"github.com/go-chi/chi"
 	"go.mercari.io/go-httpdoc"
 )
@@ -66,7 +66,7 @@ func TestDownloadHandlerServeHTTP(t *testing.T) {
 		Name: "Provider versions",
 	}
 	defer func() {
-		if err := document.Generate("../../docs/provider/download.md"); err != nil {
+		if err := document.Generate("../../../../docs/provider/download.md"); err != nil {
 			t.Fatalf("err: %v", err)
 		}
 	}()
@@ -88,7 +88,7 @@ func TestDownloadHandlerServeHTTP(t *testing.T) {
 }
 
 func testDownloadServer(doc *httpdoc.Document, description string) *httptest.Server {
-	cfg, _ := config.Parse("../../testdata/config.yaml")
+	cfg, _ := config.Parse("../../../../testdata/config.yaml")
 	pdh := &provider.DownloadHandler{
 		Providers: cfg.Providers,
 	}
