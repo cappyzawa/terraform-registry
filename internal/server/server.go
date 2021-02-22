@@ -22,11 +22,11 @@ type Opt struct {
 }
 
 // Run runs the server
-func Run(opt *Opt) {
-	os.Exit(run(context.Background(), opt))
+func Run(opt *Opt) error {
+	return run(context.Background(), opt)
 }
 
-func run(ctx context.Context, opt *Opt) int {
+func run(ctx context.Context, opt *Opt) error {
 	termCh := make(chan os.Signal, 1)
 	signal.Notify(termCh, syscall.SIGTERM, syscall.SIGINT)
 
@@ -35,7 +35,7 @@ func run(ctx context.Context, opt *Opt) int {
 	errCh := make(chan error, 1)
 
 	if err := writePIDFile(opt.PIDPATH); err != nil {
-		return 1
+		return err
 	}
 	go func() {
 		errCh <- s.Start()
@@ -44,14 +44,14 @@ func run(ctx context.Context, opt *Opt) int {
 	select {
 	case <-termCh:
 		if err := s.Stop(ctx); err != nil {
-			return 1
+			return err
 		}
 		if err := deletePIDFile(opt.PIDPATH); err != nil {
-			return 1
+			return err
 		}
-		return 0
-	case <-errCh:
-		return 1
+		return nil
+	case err := <-errCh:
+		return err
 	}
 }
 

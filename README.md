@@ -68,17 +68,35 @@ After the implementation of the configuration file is complete, start the terraf
 
 **`terraform` allows only `https` as a registry schema.**
 
+```bash
+$ terraform-registry -h
+building terraform-registry in local
+
+Usage:
+  terraform-registry [command]
+
+Available Commands:
+  help        Help about any command
+  server      run terraform registry locally
+  version     display version
+
+Flags:
+  -h, --help   help for terraform-registry
+
+Use "terraform-registry [command] --help" for more information about a command.
+```
+
 #### Using binary
 
 ```bash
-CONFIG_FILE=config.yaml terraform-registry
+terraform-registry server -c config.yaml
 
 ## If you want to register PID
-PID_FILE=/var/run/regsitry.pid CONFIG_FILE=config.yaml terraform-registry
+terraform-registry server -c config.yaml --pid-file /var/run/regsitry.pid
 ```
 
 #### Using docker (or Kubernetes)
 
 ```bash
-docker run -itd --name terraform-registry -p 8080:8080 -v /tmp/config.yaml:/tmp/config.yaml -e CONFIG_FILE=/tmp/config.yaml ghcr.io/cappyzawa/terraform-registry
+docker run -itd --name terraform-registry -p 8080:8080 -v /tmp/config.yaml:/tmp/config.yaml ghcr.io/cappyzawa/terraform-registry -c /tmp/config.yaml
 ```
