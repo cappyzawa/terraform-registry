@@ -14,11 +14,13 @@ import (
 	"github.com/cappyzawa/terraform-registry/internal/http"
 )
 
+// Opt has options for the server
 type Opt struct {
 	ConfigPATH string
 	PIDPATH    string
 }
 
+// Run runs the server
 func Run(opt *Opt) {
 	os.Exit(run(context.Background(), opt))
 }

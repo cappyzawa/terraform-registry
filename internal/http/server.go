@@ -12,10 +12,12 @@ import (
 	"github.com/go-chi/chi"
 )
 
+// Server describes the http server
 type Server struct {
 	server *http.Server
 }
 
+// NewServer initializes the http server
 func NewServer(port int, c *config.Config) *Server {
 	r := chi.NewRouter()
 	registerRoute(r, c)
@@ -57,6 +59,7 @@ func registerRoute(r *chi.Mux, c *config.Config) {
 	})
 }
 
+// Start starts the http server
 func (s *Server) Start() error {
 	if err := s.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return fmt.Errorf("http server ListenAndServe: %v", err)
@@ -65,6 +68,7 @@ func (s *Server) Start() error {
 	return nil
 }
 
+// Stop stops the http server
 func (s *Server) Stop(ctx context.Context) error {
 	if err := s.server.Shutdown(ctx); err != nil {
 		return fmt.Errorf("http server Shutdown: %v", err)

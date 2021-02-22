@@ -51,12 +51,12 @@ type Asset struct {
 	Shasum string `yaml:"shasum" json:"shasum"`
 }
 
-// Source desribes source for provider
+// Source describes source for provider
 type Source struct {
 	DownloadURL string `yaml:"download_url"`
 }
 
-// Module decribes config for module
+// Module describes config for module
 type Module struct{}
 
 // Parse parse yaml file to go struct
