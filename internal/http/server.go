@@ -18,13 +18,13 @@ type Server struct {
 }
 
 // NewServer initializes the http server
-func NewServer(port int, c *config.Config) *Server {
+func NewServer(port string, c *config.Config) *Server {
 	r := chi.NewRouter()
 	registerRoute(r, c)
 
 	return &Server{
 		server: &http.Server{
-			Addr:    fmt.Sprintf(":%d", port),
+			Addr:    fmt.Sprintf(":%s", port),
 			Handler: r,
 		},
 	}

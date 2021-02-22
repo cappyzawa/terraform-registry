@@ -31,6 +31,7 @@ func (c *cli) Run(args []string) {
 	}
 
 	opts := &server.Opt{
+		Port:       c.port,
 		ConfigPATH: c.configFile,
 		PIDPATH:    c.pidFile,
 	}

@@ -16,6 +16,7 @@ import (
 
 // Opt has options for the server
 type Opt struct {
+	Port       string
 	ConfigPATH string
 	PIDPATH    string
 }
@@ -30,7 +31,7 @@ func run(ctx context.Context, opt *Opt) int {
 	signal.Notify(termCh, syscall.SIGTERM, syscall.SIGINT)
 
 	config, _ := config.Parse(opt.ConfigPATH)
-	s := http.NewServer(8080, config)
+	s := http.NewServer(opt.Port, config)
 	errCh := make(chan error, 1)
 
 	if err := writePIDFile(opt.PIDPATH); err != nil {
