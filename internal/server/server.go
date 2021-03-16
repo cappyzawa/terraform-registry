@@ -30,7 +30,10 @@ func run(ctx context.Context, opt *Opt) error {
 	termCh := make(chan os.Signal, 1)
 	signal.Notify(termCh, syscall.SIGTERM, syscall.SIGINT)
 
-	config, _ := config.Parse(opt.ConfigPATH)
+	config, err := config.Parse(opt.ConfigPATH)
+	if err != nil {
+		return err
+	}
 	s := http.NewServer(opt.Port, config)
 	errCh := make(chan error, 1)
 
