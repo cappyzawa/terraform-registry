@@ -29,7 +29,8 @@ func Modules(modules []config.Module) func(*Handler) {
 
 func NewHandler(options ...func(*Handler)) *Handler {
 	h := &Handler{
-		Logger: log.New(os.Stderr, "", 0),
+		Modules: []config.Module{},
+		Logger:  log.New(os.Stderr, "", 0),
 	}
 	h.Logger.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	for _, option := range options {

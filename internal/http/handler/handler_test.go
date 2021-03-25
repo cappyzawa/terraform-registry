@@ -2,8 +2,10 @@ package handler_test
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/cappyzawa/terraform-registry/internal/http/handler"
@@ -34,7 +36,7 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	h := handler.New()
+	h := handler.New(handler.Logger(log.New(os.Stderr, "", 0)))
 	r.Get("/.well-known/terraform.json", h.WellKnown)
 
 	ts := httptest.NewServer(r)

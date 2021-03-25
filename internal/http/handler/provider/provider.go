@@ -29,7 +29,8 @@ func Providers(providers []config.Provider) func(*Handler) {
 
 func NewHandler(options ...func(*Handler)) *Handler {
 	h := &Handler{
-		Logger: log.New(os.Stderr, "", 0),
+		Providers: []config.Provider{},
+		Logger:    log.New(os.Stderr, "", 0),
 	}
 	h.Logger.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 	for _, option := range options {
