@@ -41,6 +41,7 @@ type DownloadMeta struct {
 // DownloadHandler handles requests for downloading provider
 type DownloadHandler struct {
 	Providers []config.Provider
+	Logger    *log.Logger
 }
 
 func (h *DownloadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -54,7 +55,7 @@ func (h *DownloadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	meta, ok := getDownloadMeta(h.Providers, &q)
 	if !ok {
-		log.Printf("provider: %s/%s does not exist", q.Namespace, q.Type)
+		h.Logger.Printf("provider: %s/%s does not exist", q.Namespace, q.Type)
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}

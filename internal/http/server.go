@@ -3,6 +3,7 @@ package http
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -18,9 +19,9 @@ type Server struct {
 }
 
 // NewServer initializes the http server
-func NewServer(port string, c *config.Config) *Server {
+func NewServer(port string, c *config.Config, logger *log.Logger) *Server {
 	r := chi.NewRouter()
-	registerRoute(r, c)
+	registerRoute(r, c, logger)
 
 	return &Server{
 		server: &http.Server{
@@ -30,16 +31,19 @@ func NewServer(port string, c *config.Config) *Server {
 	}
 }
 
-func registerRoute(r *chi.Mux, c *config.Config) {
+func registerRoute(r *chi.Mux, c *config.Config, logger *log.Logger) {
 	wh := handler.WellKnownHandler{}
 	pvh := provider.VersionsHandler{
 		Providers: c.Providers,
+		Logger:    logger,
 	}
 	pdh := provider.DownloadHandler{
 		Providers: c.Providers,
+		Logger:    logger,
 	}
 	mvh := module.VersionsHandler{
 		Modules: c.Modules,
+		Logger:  logger,
 	}
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

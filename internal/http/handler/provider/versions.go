@@ -30,6 +30,7 @@ type Platform struct {
 // VersionsHandler handles request for provider versions
 type VersionsHandler struct {
 	Providers []config.Provider
+	Logger    *log.Logger
 }
 
 func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +61,7 @@ func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if !exist {
-		log.Printf("provider: %s/%s does not found", namespace, _type)
+		h.Logger.Printf("provider: %s/%s does not found", namespace, _type)
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}

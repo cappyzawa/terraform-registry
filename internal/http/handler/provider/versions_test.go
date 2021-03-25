@@ -2,8 +2,10 @@ package provider_test
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -64,6 +66,7 @@ func testVersionsServer(doc *httpdoc.Document, description string) *httptest.Ser
 	cfg, _ := config.Parse("../../../../testdata/config.yaml")
 	pvh := &provider.VersionsHandler{
 		Providers: cfg.Providers,
+		Logger:    log.New(os.Stderr, "", 0),
 	}
 
 	r := chi.NewRouter()

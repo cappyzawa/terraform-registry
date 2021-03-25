@@ -19,6 +19,7 @@ type Opt struct {
 	Port       string
 	ConfigPATH string
 	PIDPATH    string
+	Logger     *log.Logger
 }
 
 // Run runs the server
@@ -34,11 +35,15 @@ func run(ctx context.Context, opt *Opt) error {
 	if err != nil {
 		return err
 	}
-	s := http.NewServer(opt.Port, config)
+	s := http.NewServer(opt.Port, config, opt.Logger)
 	errCh := make(chan error, 1)
 
-	if err := writePIDFile(opt.PIDPATH); err != nil {
-		return err
+	if opt.PIDPATH != "" {
+		if err := writePIDFile(opt.PIDPATH); err != nil {
+			opt.Logger.Printf("failed to write pid file: %v", err)
+			return err
+		}
+		opt.Logger.Printf("wrote pid file: %s", opt.PIDPATH)
 	}
 	go func() {
 		errCh <- s.Start()
@@ -50,8 +55,10 @@ func run(ctx context.Context, opt *Opt) error {
 			return err
 		}
 		if err := deletePIDFile(opt.PIDPATH); err != nil {
+			opt.Logger.Printf("failed to delete pid file: %v", err)
 			return err
 		}
+		opt.Logger.Printf("Deleted PID file: %s", opt.PIDPATH)
 		return nil
 	case err := <-errCh:
 		return err
@@ -69,7 +76,6 @@ func writePIDFile(path string) error {
 	if err := ioutil.WriteFile(path, []byte(pid), 0644); err != nil {
 		return err
 	}
-	log.Printf("Wrote PID file: %s", path)
 	return nil
 }
 
@@ -80,6 +86,5 @@ func deletePIDFile(path string) error {
 	if err := os.RemoveAll(path); err != nil {
 		return err
 	}
-	log.Printf("Deleted PID file: %s", path)
 	return nil
 }

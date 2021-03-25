@@ -93,6 +93,9 @@ terraform-registry server -c config.yaml
 
 ## If you want to register PID
 terraform-registry server -c config.yaml --pid-file /var/run/regsitry.pid
+
+## If you want to output log to file
+terraform-registry server -c config.yaml --log-file ./log.log
 ```
 
 #### Using docker (or Kubernetes)

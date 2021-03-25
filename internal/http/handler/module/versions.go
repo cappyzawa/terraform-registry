@@ -1,6 +1,7 @@
 package module
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -40,6 +41,7 @@ type Provider struct {
 // VersionsHandler handles request for module versions
 type VersionsHandler struct {
 	Modules []config.Module
+	Logger  *log.Logger
 }
 
 func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
