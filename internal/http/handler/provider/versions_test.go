@@ -2,10 +2,8 @@ package provider_test
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -64,10 +62,9 @@ func TestVersionHandlerServeHTTP(t *testing.T) {
 
 func testVersionsServer(doc *httpdoc.Document, description string) *httptest.Server {
 	cfg, _ := config.Parse("../../../../testdata/config.yaml")
-	pvh := &provider.VersionsHandler{
-		Providers: cfg.Providers,
-		Logger:    log.New(os.Stderr, "", 0),
-	}
+	ph := provider.NewHandler(
+		provider.Providers(cfg.Providers),
+	)
 
 	r := chi.NewRouter()
 	r.Use(func(next http.Handler) http.Handler {
@@ -82,7 +79,7 @@ func testVersionsServer(doc *httpdoc.Document, description string) *httptest.Ser
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	r.Get("/v1/providers/{namespace}/{type}/versions", pvh.ServeHTTP)
+	r.Get("/v1/providers/{namespace}/{type}/versions", ph.Versions)
 
 	return httptest.NewServer(r)
 }

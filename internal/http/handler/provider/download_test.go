@@ -2,10 +2,8 @@ package provider_test
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -91,10 +89,9 @@ func TestDownloadHandlerServeHTTP(t *testing.T) {
 
 func testDownloadServer(doc *httpdoc.Document, description string) *httptest.Server {
 	cfg, _ := config.Parse("../../../../testdata/config.yaml")
-	pdh := &provider.DownloadHandler{
-		Providers: cfg.Providers,
-		Logger:    log.New(os.Stderr, "", 0),
-	}
+	ph := provider.NewHandler(
+		provider.Providers(cfg.Providers),
+	)
 
 	r := chi.NewRouter()
 	r.Use(func(next http.Handler) http.Handler {
@@ -109,7 +106,7 @@ func testDownloadServer(doc *httpdoc.Document, description string) *httptest.Ser
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	r.Get("/v1/providers/{namespace}/{type}/{version}/download/{os}/{arch}", pdh.ServeHTTP)
+	r.Get("/v1/providers/{namespace}/{type}/{version}/download/{os}/{arch}", ph.Download)
 
 	return httptest.NewServer(r)
 }

@@ -1,10 +1,7 @@
 package module
 
 import (
-	"log"
 	"net/http"
-
-	"github.com/cappyzawa/terraform-registry/internal/config"
 )
 
 // VersionsResponse describes response for versions of target module
@@ -38,13 +35,7 @@ type Provider struct {
 	Version string `json:"version"`
 }
 
-// VersionsHandler handles request for module versions
-type VersionsHandler struct {
-	Modules []config.Module
-	Logger  *log.Logger
-}
-
-func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Versions(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("not implemention"))
 }

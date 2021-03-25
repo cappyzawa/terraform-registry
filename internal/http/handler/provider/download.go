@@ -2,7 +2,6 @@ package provider
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -38,13 +37,7 @@ type DownloadMeta struct {
 	SigningKeys         config.SigningKeys `json:"signing_keys"`
 }
 
-// DownloadHandler handles requests for downloading provider
-type DownloadHandler struct {
-	Providers []config.Provider
-	Logger    *log.Logger
-}
-
-func (h *DownloadHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Download(w http.ResponseWriter, r *http.Request) {
 	q := DownloadQuery{
 		Namespace: chi.URLParam(r, "namespace"),
 		Type:      chi.URLParam(r, "type"),

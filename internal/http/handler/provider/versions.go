@@ -2,10 +2,8 @@ package provider
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
 	"github.com/go-chi/chi"
 )
 
@@ -27,13 +25,7 @@ type Platform struct {
 	Arch string `json:"arch"`
 }
 
-// VersionsHandler handles request for provider versions
-type VersionsHandler struct {
-	Providers []config.Provider
-	Logger    *log.Logger
-}
-
-func (h *VersionsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Versions(w http.ResponseWriter, r *http.Request) {
 	namespace := chi.URLParam(r, "namespace")
 	_type := chi.URLParam(r, "type")
 	var res VersionResoponse

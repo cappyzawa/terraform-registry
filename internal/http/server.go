@@ -32,33 +32,29 @@ func NewServer(port string, c *config.Config, logger *log.Logger) *Server {
 }
 
 func registerRoute(r *chi.Mux, c *config.Config, logger *log.Logger) {
-	wh := handler.WellKnownHandler{}
-	pvh := provider.VersionsHandler{
-		Providers: c.Providers,
-		Logger:    logger,
-	}
-	pdh := provider.DownloadHandler{
-		Providers: c.Providers,
-		Logger:    logger,
-	}
-	mvh := module.VersionsHandler{
-		Modules: c.Modules,
-		Logger:  logger,
-	}
+	h := handler.New(handler.Logger(logger))
+	ph := provider.NewHandler(
+		provider.Providers(c.Providers),
+		provider.Logger(logger),
+	)
+	mh := module.NewHandler(
+		module.Modules(c.Modules),
+		module.Logger(logger),
+	)
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
 			next.ServeHTTP(w, r)
 		})
 	})
-	r.Get("/.well-known/terraform.json", wh.ServeHTTP)
+	r.Get("/.well-known/terraform.json", h.WellKnown)
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/providers", func(r chi.Router) {
-			r.Get("/{namespace}/{type}/versions", pvh.ServeHTTP)
-			r.Get("/{namespace}/{type}/{version}/download/{os}/{arch}", pdh.ServeHTTP)
+			r.Get("/{namespace}/{type}/versions", ph.Versions)
+			r.Get("/{namespace}/{type}/{version}/download/{os}/{arch}", ph.Download)
 		})
 		r.Route("/modules", func(r chi.Router) {
-			r.Get("/{namespace}/{name}/{provider}/versions", mvh.ServeHTTP)
+			r.Get("/{namespace}/{name}/{provider}/versions", mh.Versions)
 		})
 	})
 }

@@ -16,7 +16,7 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 		Name: "WellKnown",
 	}
 	defer func() {
-		if err := document.Generate("../docs/well_known.md"); err != nil {
+		if err := document.Generate("../../../docs/well_known.md"); err != nil {
 			t.Fatalf("err: %v", err)
 		}
 	}()
@@ -34,8 +34,8 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	wh := handler.WellKnownHandler{}
-	r.Get("/.well-known/terraform.json", wh.ServeHTTP)
+	h := handler.New()
+	r.Get("/.well-known/terraform.json", h.WellKnown)
 
 	ts := httptest.NewServer(r)
 	defer ts.Close()
