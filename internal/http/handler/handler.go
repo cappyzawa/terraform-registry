@@ -37,6 +37,7 @@ type WellKnownResponse struct {
 	Modules   string `json:"modules.v1"`
 }
 
+// WellKnown handles requests for wellknown endpoint
 func (h *Handler) WellKnown(w http.ResponseWriter, r *http.Request) {
 	res := WellKnownResponse{
 		Providers: "/v1/providers/",

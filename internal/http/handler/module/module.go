@@ -27,6 +27,7 @@ func Modules(modules []config.Module) func(*Handler) {
 	}
 }
 
+// NewHandler initializes the handler
 func NewHandler(options ...func(*Handler)) *Handler {
 	h := &Handler{
 		Modules: []config.Module{},

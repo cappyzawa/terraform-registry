@@ -37,6 +37,7 @@ type DownloadMeta struct {
 	SigningKeys         config.SigningKeys `json:"signing_keys"`
 }
 
+// Download handles requests for downloading provider
 func (h *Handler) Download(w http.ResponseWriter, r *http.Request) {
 	q := DownloadQuery{
 		Namespace: chi.URLParam(r, "namespace"),
@@ -60,7 +61,6 @@ func (h *Handler) Download(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(&res)
-	return
 }
 
 func replaceMeta(base string, query *DownloadQuery) string {

@@ -25,6 +25,7 @@ type Platform struct {
 	Arch string `json:"arch"`
 }
 
+// Versions handles requests for provider versions
 func (h *Handler) Versions(w http.ResponseWriter, r *http.Request) {
 	namespace := chi.URLParam(r, "namespace")
 	_type := chi.URLParam(r, "type")

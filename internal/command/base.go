@@ -16,6 +16,7 @@ type Opt struct {
 	Err     io.Writer
 }
 
+// NewBaseCmd initializes the root command
 func NewBaseCmd(opt *Opt) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           opt.Name,
@@ -38,6 +39,7 @@ func initConfig() {
 	viper.AutomaticEnv()
 }
 
+// Execute executes this command
 func Execute(opt *Opt) int {
 	cmd := NewBaseCmd(opt)
 	if err := cmd.Execute(); err != nil {

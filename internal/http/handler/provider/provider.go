@@ -27,6 +27,7 @@ func Providers(providers []config.Provider) func(*Handler) {
 	}
 }
 
+// NewHandler initializes the handler for providers
 func NewHandler(options ...func(*Handler)) *Handler {
 	h := &Handler{
 		Providers: []config.Provider{},

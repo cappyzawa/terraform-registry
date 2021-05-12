@@ -35,6 +35,7 @@ type Provider struct {
 	Version string `json:"version"`
 }
 
+// Versions handles requests for module versions
 func (h *Handler) Versions(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("not implemention"))
