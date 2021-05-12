@@ -24,6 +24,11 @@ func TestParse(t *testing.T) {
 			existErr:  true,
 			expectLen: 0,
 		},
+		"config is invalid": {
+			input:     "../../testdata/invalid-config.yaml",
+			existErr:  true,
+			expectLen: 0,
+		},
 	}
 
 	for name, test := range cases {
