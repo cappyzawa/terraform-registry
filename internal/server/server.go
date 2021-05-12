@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"strconv"
-	"syscall"
+	"time"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
 	"github.com/cappyzawa/terraform-registry/internal/http"
@@ -24,19 +24,17 @@ type Opt struct {
 
 // Run runs the server
 func Run(opt *Opt) error {
-	return run(context.Background(), opt)
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+	return run(ctx, opt)
 }
 
 func run(ctx context.Context, opt *Opt) error {
-	termCh := make(chan os.Signal, 1)
-	signal.Notify(termCh, syscall.SIGTERM, syscall.SIGINT)
-
 	config, err := config.Parse(opt.ConfigPATH)
 	if err != nil {
 		return err
 	}
 	s := http.NewServer(opt.Port, config, opt.Logger)
-	errCh := make(chan error, 1)
 
 	if opt.PIDPATH != "" {
 		if err := writePIDFile(opt.PIDPATH); err != nil {
@@ -45,12 +43,17 @@ func run(ctx context.Context, opt *Opt) error {
 		}
 		opt.Logger.Printf("wrote pid file: %s", opt.PIDPATH)
 	}
+
+	errCh := make(chan error, 1)
 	go func() {
 		errCh <- s.Start()
 	}()
 
 	select {
-	case <-termCh:
+	case <-ctx.Done():
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
 		if err := s.Stop(ctx); err != nil {
 			return err
 		}
