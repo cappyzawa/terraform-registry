@@ -1,4 +1,4 @@
-package handler_test
+package wellknown_test
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/internal/http/handler"
+	"github.com/cappyzawa/terraform-registry/internal/http/handler/wellknown"
 	"github.com/go-chi/chi"
 	"go.mercari.io/go-httpdoc"
 )
@@ -36,7 +36,7 @@ func TestWellKnownHandlerServeHTTP(t *testing.T) {
 			ExcludeHeaders: []string{"Content-Length", "User-Agent", "Accept-Encoding"},
 		})
 	})
-	h := handler.New(handler.Logger(log.New(os.Stderr, "", 0)))
+	h := wellknown.NewHandler(wellknown.Logger(log.New(os.Stderr, "", 0)))
 	r.Get("/.well-known/terraform.json", h.WellKnown)
 
 	ts := httptest.NewServer(r)

@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
-	"github.com/cappyzawa/terraform-registry/internal/http/handler"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/module"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/provider"
+	"github.com/cappyzawa/terraform-registry/internal/http/handler/wellknown"
 	"github.com/go-chi/chi"
 )
 
@@ -32,7 +32,7 @@ func NewServer(port string, c *config.Config, logger *log.Logger) *Server {
 }
 
 func registerRoute(r *chi.Mux, c *config.Config, logger *log.Logger) {
-	h := handler.New(handler.Logger(logger))
+	wh := wellknown.NewHandler(wellknown.Logger(logger))
 	ph := provider.NewHandler(
 		provider.Providers(c.Providers),
 		provider.Logger(logger),
@@ -47,7 +47,7 @@ func registerRoute(r *chi.Mux, c *config.Config, logger *log.Logger) {
 			next.ServeHTTP(w, r)
 		})
 	})
-	r.Get("/.well-known/terraform.json", h.WellKnown)
+	r.Get("/.well-known/terraform.json", wh.WellKnown)
 	r.Route("/v1", func(r chi.Router) {
 		r.Route("/providers", func(r chi.Router) {
 			r.Get("/{namespace}/{type}/versions", ph.Versions)

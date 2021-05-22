@@ -1,4 +1,4 @@
-package handler
+package wellknown
 
 import (
 	"encoding/json"
@@ -12,15 +12,8 @@ type Handler struct {
 	Logger *log.Logger
 }
 
-// Logger set logger to the Handler
-func Logger(logger *log.Logger) func(*Handler) {
-	return func(h *Handler) {
-		h.Logger = logger
-	}
-}
-
 // New initilize the handler
-func New(options ...func(*Handler)) *Handler {
+func NewHandler(options ...func(*Handler)) *Handler {
 	h := &Handler{
 		Logger: log.New(os.Stderr, "", 0),
 	}
@@ -29,6 +22,13 @@ func New(options ...func(*Handler)) *Handler {
 		option(h)
 	}
 	return h
+}
+
+// Logger set logger to the Handler
+func Logger(logger *log.Logger) func(*Handler) {
+	return func(h *Handler) {
+		h.Logger = logger
+	}
 }
 
 // WellKnownResponse describes response for wellknwon request
