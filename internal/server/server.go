@@ -30,11 +30,11 @@ func Run(opt *Opt) error {
 }
 
 func run(ctx context.Context, opt *Opt) error {
-	config, err := config.Parse(opt.ConfigPATH)
+	c, err := config.Parse(opt.ConfigPATH)
 	if err != nil {
 		return err
 	}
-	s := http.NewServer(opt.Port, config, opt.Logger)
+	s := http.NewServer(opt.Port, c, opt.Logger)
 
 	if opt.PIDPATH != "" {
 		if err := writePIDFile(opt.PIDPATH); err != nil {

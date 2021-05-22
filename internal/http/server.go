@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
@@ -25,7 +26,7 @@ func NewServer(port string, c *config.Config, logger *log.Logger) *Server {
 
 	return &Server{
 		server: &http.Server{
-			Addr:    fmt.Sprintf(":%s", port),
+			Addr:    net.JoinHostPort("", port),
 			Handler: r,
 		},
 	}
