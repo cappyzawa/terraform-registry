@@ -4,26 +4,15 @@ import (
 	"encoding/json"
 	"net/http"
 
+	p "github.com/cappyzawa/terraform-registry/provider"
 	"github.com/go-chi/chi"
 )
 
-// VersionResoponse describes response for provider verions
-type VersionResoponse struct {
-	Versions []Version `json:"versions"`
-}
-
-// Version desribes provider version
-type Version struct {
-	Name      string     `json:"version"`
-	Protocols []string   `json:"protocols"`
-	Platforms []Platform `json:"platforms"`
-}
-
-// Platform describes provider platform
-type Platform struct {
-	OS   string `json:"os"`
-	Arch string `json:"arch"`
-}
+type (
+	VersionResoponse = p.Versions
+	Version          = p.Version
+	Platform         = p.Platform
+)
 
 // Versions handles requests for provider versions
 func (h *Handler) Versions(w http.ResponseWriter, r *http.Request) {

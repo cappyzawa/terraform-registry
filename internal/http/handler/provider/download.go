@@ -7,35 +7,15 @@ import (
 	"strings"
 
 	"github.com/cappyzawa/terraform-registry/internal/config"
+	p "github.com/cappyzawa/terraform-registry/provider"
 	"github.com/go-chi/chi"
 )
 
-// DownloadResponse desribes response for downloading provider
-type DownloadResponse struct {
-	Protocols []string `json:"protocols"`
-	OS        string   `json:"os"`
-	Arch      string   `json:"arch"`
-	*DownloadMeta
-}
-
-// DownloadQuery desribes query for finding provider
-type DownloadQuery struct {
-	Namespace string
-	Type      string
-	Version   string
-	OS        string
-	Arch      string
-}
-
-// DownloadMeta desribes metadata for downloding
-type DownloadMeta struct {
-	Filename            string             `json:"filename"`
-	DownloadURL         string             `json:"download_url"`
-	ShasumsURL          string             `json:"shasums_url"`
-	ShasumsSignatureURL string             `json:"shasums_signature_url"`
-	Shasum              string             `json:"shasum"`
-	SigningKeys         config.SigningKeys `json:"signing_keys"`
-}
+type (
+	DownloadResponse = p.Download
+	DownloadQuery    = p.DownloadQuery
+	DownloadMeta     = p.DownloadMeta
+)
 
 // Download handles requests for downloading provider
 func (h *Handler) Download(w http.ResponseWriter, r *http.Request) {
