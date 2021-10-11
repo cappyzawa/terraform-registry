@@ -7,7 +7,7 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/config"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/module"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/provider"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/wellknown"

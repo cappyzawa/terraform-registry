@@ -3,7 +3,7 @@ package config_test
 import (
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/config"
 )
 
 func TestParse(t *testing.T) {

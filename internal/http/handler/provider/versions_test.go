@@ -8,7 +8,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/config"
 	"github.com/cappyzawa/terraform-registry/internal/http/handler/provider"
 	"github.com/go-chi/chi"
 	"go.mercari.io/go-httpdoc"

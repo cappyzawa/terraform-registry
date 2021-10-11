@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/config"
 	"github.com/cappyzawa/terraform-registry/internal/http"
 )
 

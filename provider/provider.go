@@ -1,6 +1,6 @@
 package provider
 
-import "github.com/cappyzawa/terraform-registry/internal/config"
+import "github.com/cappyzawa/terraform-registry/config"
 
 // Versions describes response for provider verions
 type Versions struct {

@@ -4,7 +4,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/cappyzawa/terraform-registry/internal/config"
+	"github.com/cappyzawa/terraform-registry/config"
 )
 
 // Handler describes the handler for module
