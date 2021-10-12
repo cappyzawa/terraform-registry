@@ -15,7 +15,7 @@ func TestParse(t *testing.T) {
 		expectLen int
 	}{
 		"config file exists": {
-			input:     "../../testdata/config.yaml",
+			input:     "../testdata/config.yaml",
 			existErr:  false,
 			expectLen: 1,
 		},
@@ -25,7 +25,7 @@ func TestParse(t *testing.T) {
 			expectLen: 0,
 		},
 		"config is invalid": {
-			input:     "../../testdata/invalid-config.yaml",
+			input:     "../testdata/invalid-config.yaml",
 			existErr:  true,
 			expectLen: 0,
 		},
