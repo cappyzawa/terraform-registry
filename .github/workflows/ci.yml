@@ -23,7 +23,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: go test
       run: "go test -v -race -coverprofile=coverage.txt -covermode=atomic ./..."
-    - uses: codecov/codecov-action@v4
+    - uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.txt
