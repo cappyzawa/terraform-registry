@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/go-chi/chi v4.1.2+incompatible
-	github.com/spf13/cobra v1.7.0
+	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.17.0
 	github.com/tenntenn/gpath v0.0.0-20170604083136-3e6e957a3952 // indirect
 	go.mercari.io/go-httpdoc v0.2.0
