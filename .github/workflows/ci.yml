@@ -20,7 +20,7 @@ jobs:
     - uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go }}
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: go test
       run: "go test -v -race -coverprofile=coverage.txt -covermode=atomic ./..."
     - uses: codecov/codecov-action@v5
